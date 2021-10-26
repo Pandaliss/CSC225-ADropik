@@ -1,0 +1,2 @@
+C:\Users\S02213270\CSC225-ADropik\HelloWorld\Debug\HelloWorld.exe
+C:\Users\S02213270\CSC225-ADropik\HelloWorld\Debug\HelloWorld.pdb

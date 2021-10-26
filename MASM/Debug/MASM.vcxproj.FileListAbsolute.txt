@@ -1,0 +1,2 @@
+C:\Users\S02213270\CSC225-ADropik\MASM\Debug\MASM.exe
+C:\Users\S02213270\CSC225-ADropik\MASM\Debug\MASM.pdb
