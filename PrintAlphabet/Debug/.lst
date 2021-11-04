@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.26.28806.0	    10/25/21 19:01:53
+Microsoft (R) Macro Assembler Version 14.26.28806.0	    11/03/21 18:39:28
 eg.main.asm						     Page 1 - 1
 
 
@@ -13,13 +13,11 @@ eg.main.asm						     Page 1 - 1
 
  00000000			.data
 
- 00000000 61 62 63 64		alphabet	byte	'a', 'b', 'c', 'd'
+ 00000000 61 62 63 64		alphabet		byte	'a', 'b', 'c', 'd'		; this is array
  00000004 00000000		outputHandle	dword	?
- 00000008 00000000		written		dword	?
+ 00000008 00000000		written			dword	?
 
  00000000			.code
-
-
 
 
  00000000			main PROC near
@@ -34,7 +32,7 @@ eg.main.asm						     Page 1 - 1
  0000000C  BA 00000008 R		mov		edx, offset written
  00000011  BB 00000000 R		mov		ebx, offset alphabet
 
- 00000016  BE 00000000			mov		esi, 0
+ 00000016  BE 00000000			mov		esi, 0								; need base of array
 
  0000001B			_loop:
 					
@@ -60,7 +58,7 @@ eg.main.asm						     Page 1 - 1
 
  00000041			main ENDP
 				END
-Microsoft (R) Macro Assembler Version 14.26.28806.0	    10/25/21 19:01:53
+Microsoft (R) Macro Assembler Version 14.26.28806.0	    11/03/21 18:39:28
 eg.main.asm						     Symbols 2 - 1
 
 

@@ -1,0 +1,99 @@
+Microsoft (R) Macro Assembler Version 14.26.28806.0	    11/03/21 18:59:28
+eg.main.asm						     Page 1 - 1
+
+
+				.386P
+
+				.model flat
+
+				extern _GetStdHandle@4:near
+				extern _ExitProcess@4: near
+				extern _WriteConsoleA@20:near
+				extern _ReadConsoleA@20:near
+
+ 00000000			.data
+
+ 00000000 00000001		prev		dword	1
+ 00000004 00000001		current		dword	1
+ 00000008 00000000		next		dword	0
+
+ 00000000			.code
+
+
+ 00000000			main PROC near
+
+ 00000000			_main:
+
+ 00000000  B9 00000003			mov		ecx,	3			; ecx is counter register. We put 3 in there because that is where the for loop starts (i = 3)
+ 00000005  B8 0000000A			mov		eax,	10			; 5 can ve changed to whatever number. EAX = n
+ 0000000A  8B 3D 00000000 R		mov		edi,	prev
+ 00000010  8B 35 00000004 R		mov		esi,	current
+ 00000016  8B 15 00000008 R		mov		edx,	next
+
+ 0000001C			_loop:
+					
+ 0000001C  3B C8			cmp		ecx,	eax			; loop condition checker
+ 0000001E  7D 0B			jge		_exit				
+ 00000020  8B D6			mov		edx,	esi			; this and next line are next = current + previous
+ 00000022  03 D7			add		edx,	edi
+ 00000024  8B FE			mov		edi,	esi			; previous = current
+ 00000026  8B F2			mov		esi,	edx			; current = next
+ 00000028  41				inc		ecx					; incrementing i in for loop
+ 00000029  EB F1			jmp		_loop				; restarting loop
+
+ 0000002B			_exit:
+					
+ 0000002B  8B C2			mov eax, edx				; getting next and putting into eax for value checking
+ 0000002D  6A 00			push 0
+ 0000002F  E8 00000000 E		call _ExitProcess@4
+
+ 00000034			main ENDP
+				END
+Microsoft (R) Macro Assembler Version 14.26.28806.0	    11/03/21 18:59:28
+eg.main.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	32 Bit	 0000000C Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000034 Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000034 Public
+  _main  . . . . . . . . . . . .	L Near	 00000000 _TEXT	
+  _loop  . . . . . . . . . . . .	L Near	 0000001C _TEXT	
+  _exit  . . . . . . . . . . . .	L Near	 0000002B _TEXT	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000000h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+_ExitProcess@4 . . . . . . . . .	L Near	 00000000 FLAT	External
+_GetStdHandle@4  . . . . . . . .	L Near	 00000000 FLAT	External
+_ReadConsoleA@20 . . . . . . . .	L Near	 00000000 FLAT	External
+_WriteConsoleA@20  . . . . . . .	L Near	 00000000 FLAT	External
+current  . . . . . . . . . . . .	DWord	 00000004 _DATA	
+next . . . . . . . . . . . . . .	DWord	 00000008 _DATA	
+prev . . . . . . . . . . . . . .	DWord	 00000000 _DATA	
+
+	   0 Warnings
+	   0 Errors
