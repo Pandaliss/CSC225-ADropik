@@ -21,7 +21,7 @@ main PROC near
 _main:
 
 	mov		ecx,	3			; ecx is counter register. We put 3 in there because that is where the for loop starts (i = 3)
-	mov		eax,	10			; 5 can ve changed to whatever number. EAX = n
+	mov		eax,	5			; 5 can ve changed to whatever number. EAX = n
 	mov		edi,	prev
 	mov		esi,	current
 	mov		edx,	next
