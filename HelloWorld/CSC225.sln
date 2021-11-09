@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exchange", "..\Exchange\Exc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fibonacci", "..\Fibonacci\Fibonacci.vcxproj", "{47A1A3FC-578D-41DB-989F-E78120F2AFAC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Temperature Conversion", "..\Temperature Conversion\Temperature Conversion.vcxproj", "{A93F0192-F32C-46AA-B0ED-294BF2750325}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -81,6 +83,14 @@ Global
 		{47A1A3FC-578D-41DB-989F-E78120F2AFAC}.Release|x64.Build.0 = Release|x64
 		{47A1A3FC-578D-41DB-989F-E78120F2AFAC}.Release|x86.ActiveCfg = Release|Win32
 		{47A1A3FC-578D-41DB-989F-E78120F2AFAC}.Release|x86.Build.0 = Release|Win32
+		{A93F0192-F32C-46AA-B0ED-294BF2750325}.Debug|x64.ActiveCfg = Debug|x64
+		{A93F0192-F32C-46AA-B0ED-294BF2750325}.Debug|x64.Build.0 = Debug|x64
+		{A93F0192-F32C-46AA-B0ED-294BF2750325}.Debug|x86.ActiveCfg = Debug|Win32
+		{A93F0192-F32C-46AA-B0ED-294BF2750325}.Debug|x86.Build.0 = Debug|Win32
+		{A93F0192-F32C-46AA-B0ED-294BF2750325}.Release|x64.ActiveCfg = Release|x64
+		{A93F0192-F32C-46AA-B0ED-294BF2750325}.Release|x64.Build.0 = Release|x64
+		{A93F0192-F32C-46AA-B0ED-294BF2750325}.Release|x86.ActiveCfg = Release|Win32
+		{A93F0192-F32C-46AA-B0ED-294BF2750325}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
