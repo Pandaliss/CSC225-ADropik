@@ -45,7 +45,12 @@
       "ProjectGuid": "4819964b-fd89-4081-a4df-51793d4b54bf",
       "DisplayName": "Exchange",
       "ColorIndex": 8
+    },
+    "8006bfa5-fed7-4011-b737-6757f35dccf7": {
+      "ProjectGuid": "8006bfa5-fed7-4011-b737-6757f35dccf7",
+      "DisplayName": "PrintLine",
+      "ColorIndex": 9
     }
   },
-  "NextColorIndex": 9
+  "NextColorIndex": 10
 }
