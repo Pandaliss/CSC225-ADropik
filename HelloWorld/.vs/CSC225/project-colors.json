@@ -1,0 +1,51 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "a93f0192-f32c-46aa-b0ed-294bf2750325": {
+      "ProjectGuid": "a93f0192-f32c-46aa-b0ed-294bf2750325",
+      "DisplayName": "Temperature Conversion",
+      "ColorIndex": 0
+    },
+    "f31663e0-c8a6-4c5e-aa36-be1a8056a6de": {
+      "ProjectGuid": "f31663e0-c8a6-4c5e-aa36-be1a8056a6de",
+      "DisplayName": "Fibonacci Loop Instruction",
+      "ColorIndex": 1
+    },
+    "bb1f023c-2b88-4dce-b4e2-7663ec6c27bd": {
+      "ProjectGuid": "bb1f023c-2b88-4dce-b4e2-7663ec6c27bd",
+      "DisplayName": "HelloWorld",
+      "ColorIndex": 2
+    },
+    "ea2bce6d-e24d-4bb2-9aee-92b6acb7dd15": {
+      "ProjectGuid": "ea2bce6d-e24d-4bb2-9aee-92b6acb7dd15",
+      "DisplayName": "JumpInstruction",
+      "ColorIndex": 3
+    },
+    "30cdd97f-57db-4fda-9248-834954f02b77": {
+      "ProjectGuid": "30cdd97f-57db-4fda-9248-834954f02b77",
+      "DisplayName": "0IntoEAX",
+      "ColorIndex": 4
+    },
+    "b7ca3be3-b0ab-405c-a5b5-5c4ac30c0a66": {
+      "ProjectGuid": "b7ca3be3-b0ab-405c-a5b5-5c4ac30c0a66",
+      "DisplayName": "ForInstruction",
+      "ColorIndex": 5
+    },
+    "03ec07d4-a19d-4958-b33f-89278a7e457f": {
+      "ProjectGuid": "03ec07d4-a19d-4958-b33f-89278a7e457f",
+      "DisplayName": "PrintAlphabet",
+      "ColorIndex": 6
+    },
+    "47a1a3fc-578d-41db-989f-e78120f2afac": {
+      "ProjectGuid": "47a1a3fc-578d-41db-989f-e78120f2afac",
+      "DisplayName": "Fibonacci",
+      "ColorIndex": 7
+    },
+    "4819964b-fd89-4081-a4df-51793d4b54bf": {
+      "ProjectGuid": "4819964b-fd89-4081-a4df-51793d4b54bf",
+      "DisplayName": "Exchange",
+      "ColorIndex": 8
+    }
+  },
+  "NextColorIndex": 9
+}

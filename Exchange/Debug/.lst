@@ -1,0 +1,87 @@
+Microsoft (R) Macro Assembler Version 14.29.30136.0	    11/10/21 16:08:37
+main.asm						     Page 1 - 1
+
+
+				.386P
+
+				.model flat
+
+				extern _ExitProcess@4: near
+
+ 00000000			.data
+
+ 00000000 0000000A		number1		dword	10
+ 00000004 00000014		number2		dword	20
+ 00000008 0000001E		number3		dword	30
+ 0000000C 00000028		number4		dword	40
+
+ 00000000			.code
+
+
+
+
+ 00000000			main PROC near
+
+ 00000000			_main:
+ 00000000  B8 00000000 R		mov		eax, offset number1
+ 00000005  A1 00000000 R		mov		eax,	number1
+ 0000000A  8B 15 00000004 R		mov		edx,	number2
+ 00000010  8B 3D 00000008 R		mov		edi,	number3
+ 00000016  8B 35 0000000C R		mov		esi,	number4
+
+ 0000001C  96				xchg	eax,	esi
+ 0000001D  87 D7			xchg	edx,	edi
+
+ 0000001F  A3 00000000 R		mov		number1, eax 
+ 00000024  89 15 00000004 R		mov		number2, edx
+ 0000002A  89 3D 00000008 R		mov		number3, edi
+ 00000030  89 35 0000000C R		mov		number4, esi
+ 00000036  6A 00			push 0
+ 00000038  E8 00000000 E		call _ExitProcess@4
+
+ 0000003D			main ENDP
+				END
+Microsoft (R) Macro Assembler Version 14.29.30136.0	    11/10/21 16:08:37
+main.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000010 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 0000003D Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000003D Public
+  _main  . . . . . . . . . . . .	L Near	 00000000 _TEXT	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000000h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+_ExitProcess@4 . . . . . . . . .	L Near	 00000000 FLAT	External
+number1  . . . . . . . . . . . .	DWord	 00000000 _DATA	
+number2  . . . . . . . . . . . .	DWord	 00000004 _DATA	
+number3  . . . . . . . . . . . .	DWord	 00000008 _DATA	
+number4  . . . . . . . . . . . .	DWord	 0000000C _DATA	
+
+	   0 Warnings
+	   0 Errors

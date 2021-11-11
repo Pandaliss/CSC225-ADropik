@@ -19,7 +19,7 @@ number4		dword	40
 main PROC near
 
 _main:
-
+	; mov		eax, offset number1
 	mov		eax,	number1
 	mov		edx,	number2
 	mov		edi,	number3
@@ -27,6 +27,11 @@ _main:
 
 	xchg	eax,	esi
 	xchg	edx,	edi
+
+	mov		number1, eax	; needs to be done to update what is in memory as well!
+	mov		number2, edx
+	mov		number3, edi
+	mov		number4, esi
 
 	push 0
 	call _ExitProcess@4

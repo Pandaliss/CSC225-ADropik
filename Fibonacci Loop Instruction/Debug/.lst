@@ -1,5 +1,5 @@
-Microsoft (R) Macro Assembler Version 14.29.30136.0	    11/10/21 19:16:51
-eg.main.asm						     Page 1 - 1
+Microsoft (R) Macro Assembler Version 14.29.30136.0	    11/10/21 18:54:10
+main.asm						     Page 1 - 1
 
 
 				.386P
@@ -10,6 +10,7 @@ eg.main.asm						     Page 1 - 1
 				extern _ExitProcess@4: near
 				extern _WriteConsoleA@20:near
 				extern _ReadConsoleA@20:near
+
  00000000			.data
 
  00000000 00000001		prev		dword	1
@@ -23,45 +24,32 @@ eg.main.asm						     Page 1 - 1
 
  00000000			_main:
 
- 00000000  B9 00000003			mov		ecx,	3			; ecx is counter register. We put 3 in there because that is where the for loop starts (i = 3)
- 00000005  B8 00000006			mov		eax,	6			; 5 can be changed to whatever number. EAX = n
+ 00000000  B9 00000003			mov		ecx,	3				; ecx is counter register. We put 3 in there because that is where the for loop starts (i = 3)
+ 00000005  B8 00000005			mov		eax,	5				; 5 can be changed to whatever number. EAX = n
  0000000A  8B 3D 00000000 R		mov		edi,	prev
  00000010  8B 35 00000004 R		mov		esi,	current
  00000016  8B 15 00000008 R		mov		edx,	next
 
  0000001C			_loop:
-
- 0000001C  83 F8 03			cmp		eax,	3			; lines 30-33 and 44-56 are fixes for the first 3 values of sequence fix
- 0000001F  7C 0F			jl		_condition1
-
- 00000021  3B C8			cmp		ecx,	eax			; loop condition checker
- 00000023  7F 1C			jg		_exit				
- 00000025  8B D6			mov		edx,	esi			; this and next line are next = current + previous
- 00000027  03 D7			add		edx,	edi
- 00000029  8B FE			mov		edi,	esi			; previous = current
- 0000002B  8B F2			mov		esi,	edx			; current = next
- 0000002D  41				inc		ecx					; incrementing i in for loop
- 0000002E  EB EC			jmp		_loop				; restarting loop
-
- 00000030			_condition1:
-
- 00000030  B8 00000001			mov		eax,	1
- 00000035  A3 00000008 R		mov		next,	eax
- 0000003A  6A 00			push	0
- 0000003C  E8 00000000 E		call _ExitProcess@4
-
-
- 00000041			_exit:
 					
- 00000041  8B C2			mov		eax,	edx				; getting next and putting into eax for value checking
- 00000043  A3 00000008 R		mov		next,	eax				; writing to memory
- 00000048  6A 00			push	0
- 0000004A  E8 00000000 E		call _ExitProcess@4
+ 0000001C  2B C8			sub		ecx,	eax 			; Subtracting ECX from EAX so we know how many iterations we need to do and storing it into ecx. This is because the loop starts at 3 
+														
+ 0000001E  8B D6			mov		edx,	esi				; this and next line are next = current + previous
+ 00000020  03 D7			add		edx,	edi
+ 00000022  8B FE			mov		edi,	esi				; previous = current
+ 00000024  8B F2			mov		esi,	edx				; current = next
+ 00000026  E2 F4			loop	_loop					; this will decrement ecx and jumps back up if the ecx is not 0
 
- 0000004F			main ENDP
+ 00000028			_exit:
+					
+ 00000028  8B C2			mov		eax,	edx				; getting next and putting into eax for value checking
+ 0000002A  6A 00			push 0
+ 0000002C  E8 00000000 E		call _ExitProcess@4
+
+ 00000031			main ENDP
 				END
-Microsoft (R) Macro Assembler Version 14.29.30136.0	    11/10/21 19:16:51
-eg.main.asm						     Symbols 2 - 1
+Microsoft (R) Macro Assembler Version 14.29.30136.0	    11/10/21 18:54:10
+main.asm						     Symbols 2 - 1
 
 
 
@@ -72,18 +60,17 @@ Segments and Groups:
 
 FLAT . . . . . . . . . . . . . .	GROUP
 _DATA  . . . . . . . . . . . . .	32 Bit	 0000000C Para	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 0000004F Para	  Public  'CODE'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000031 Para	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
 
                 N a m e                 Type     Value    Attr
 
-main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000004F Public
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000031 Public
   _main  . . . . . . . . . . . .	L Near	 00000000 _TEXT	
   _loop  . . . . . . . . . . . .	L Near	 0000001C _TEXT	
-  _condition1  . . . . . . . . .	L Near	 00000030 _TEXT	
-  _exit  . . . . . . . . . . . .	L Near	 00000041 _TEXT	
+  _exit  . . . . . . . . . . . .	L Near	 00000028 _TEXT	
 
 
 Symbols:
