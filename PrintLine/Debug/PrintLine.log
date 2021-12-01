@@ -1,0 +1,3 @@
+﻿  Assembling main.asm...
+main.asm(67): error A2150: word register cannot be first operand
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v160\BuildCustomizations\masm.targets(70,5): error MSB3721: The command "ml.exe /c /nologo /Zi /Fo"Debug\main.obj" /Fl"Debug\.lst" /W3 /errorReport:prompt  /Tamain.asm" exited with code 1.

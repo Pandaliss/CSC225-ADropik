@@ -50,7 +50,12 @@
       "ProjectGuid": "8006bfa5-fed7-4011-b737-6757f35dccf7",
       "DisplayName": "PrintLine",
       "ColorIndex": 9
+    },
+    "d34f92da-4df3-49f8-9d1c-440ab9e38f71": {
+      "ProjectGuid": "d34f92da-4df3-49f8-9d1c-440ab9e38f71",
+      "DisplayName": "CSC225 Project",
+      "ColorIndex": 10
     }
   },
-  "NextColorIndex": 10
+  "NextColorIndex": 11
 }

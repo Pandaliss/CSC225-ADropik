@@ -1,0 +1,128 @@
+Microsoft (R) Macro Assembler Version 14.29.30136.0	    11/30/21 16:27:55
+main.asm						     Page 1 - 1
+
+
+				.386P
+
+				.model flat
+
+				extern _GetStdHandle@4:near
+				extern _ExitProcess@4: near
+				extern _WriteConsoleA@20:near
+				extern _ReadConsoleA@20:near
+
+ 00000000			.data
+
+ 00000000 54 65 73 74 31	string			byte	'Test12345', 10
+	   32 33 34 35 0A
+ 0000000A 00000000		handle			dword	?
+ 0000000E 00000000		written			dword	?
+ 00000012 00000000		numOfBytes		dword	?
+
+ 00000000			.code
+
+ 00000000			PrintLine PROC near					; Defines procedure
+
+
+ 00000000  55				push ebp						; Save the old base pointer
+ 00000001  8B EC			mov ebp, esp					; Set new base pointer
+ 00000003  8B 5D 08			mov ebx, [ebp+8]				; Getting parameter that we want (string address)
+
+ 00000006  B9 00000000			mov ecx, 0
+					
+ 0000000B			_Counting:
+
+ 0000000B  8A 03			mov al, [ebx]
+ 0000000D  3C 0A			cmp	al, 10
+ 0000000F  74 04			je	_PrintLine
+					
+					; mov ecx, eax
+ 00000011  41				inc ecx
+ 00000012  43				inc ebx
+ 00000013  EB F6			jmp _Counting
+
+ 00000015			_PrintLine:
+
+					; handle = GetStdHandle(-11)
+ 00000015  6A F5			push -11							
+ 00000017  E8 00000000 E		call _GetStdHandle@4
+
+ 0000001C  A3 0000000A R		mov		handle, eax
+
+					; WriteConsole(handle, &msg[0], numOfChars, &written, 0)
+ 00000021  6A 00			push 0
+ 00000023  68 0000000E R		push offset written
+ 00000028  51				push ecx
+ 00000029  68 00000000 R		push offset string
+ 0000002E  FF 35 0000000A R		push handle
+ 00000034  E8 00000000 E		call _WriteConsoleA@20
+ 00000039  5D				pop ebp
+ 0000003A  C2 0004			ret 4
+
+ 0000003D			PrintLine ENDP	
+
+ 0000003D			main PROC near
+
+ 0000003D			_main:
+
+ 0000003D  68 00000000 R		push offset string
+ 00000042  E8 FFFFFFB9			call PrintLine
+					
+ 00000047  6A 00			push 0
+					ret ecx
+main.asm(67) : error A2150:word register cannot be first operand
+ 00000049  E8 00000000 E		call _ExitProcess@4
+
+ 0000004E			main ENDP
+
+				END
+Microsoft (R) Macro Assembler Version 14.29.30136.0	    11/30/21 16:27:55
+main.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000016 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 0000004E Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+PrintLine  . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000003D Public
+  _Counting  . . . . . . . . . .	L Near	 0000000B _TEXT	
+  _PrintLine . . . . . . . . . .	L Near	 00000015 _TEXT	
+main . . . . . . . . . . . . . .	P Near	 0000003D _TEXT	Length= 00000011 Public
+  _main  . . . . . . . . . . . .	L Near	 0000003D _TEXT	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000000h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+_ExitProcess@4 . . . . . . . . .	L Near	 00000000 FLAT	External
+_GetStdHandle@4  . . . . . . . .	L Near	 00000000 FLAT	External
+_ReadConsoleA@20 . . . . . . . .	L Near	 00000000 FLAT	External
+_WriteConsoleA@20  . . . . . . .	L Near	 00000000 FLAT	External
+handle . . . . . . . . . . . . .	DWord	 0000000A _DATA	
+numOfBytes . . . . . . . . . . .	DWord	 00000012 _DATA	
+string . . . . . . . . . . . . .	Byte	 00000000 _DATA	
+written  . . . . . . . . . . . .	DWord	 0000000E _DATA	
+
+	   0 Warnings
+	   1 Errors
