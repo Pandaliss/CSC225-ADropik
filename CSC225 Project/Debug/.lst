@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.29.30136.0	    11/30/21 17:20:56
+Microsoft (R) Macro Assembler Version 14.29.30136.0	    12/05/21 18:45:59
 main.asm						     Page 1 - 1
 
 
@@ -16,9 +16,9 @@ main.asm						     Page 1 - 1
 
  00000000			.data
 
- 00000000 00000000		readHandle			dword	?
- 00000004 00000000		handle				dword	?
- 00000008 00000000		written				dword	?
+ 00000000 00000000		readHandle		dword	?
+ 00000004 00000000		handle			dword	?
+ 00000008 00000000		written			dword	?
 
  0000000C 45 6E 74 65 72	msg		byte	'Enter number 1: ', 10
 	   20 6E 75 6D 62
@@ -28,174 +28,205 @@ main.asm						     Page 1 - 1
 	   20 6E 75 6D 62
 	   65 72 20 32 3A
 	   20 0A
- 0000002E 54 68 65 20 6D	result	byte	'The multiplcation result is: ', 10
+ 0000002E 54 68 65 20 6D	result	byte	'The multiplication result is: ', 10
 	   75 6C 74 69 70
-	   6C 63 61 74 69
-	   6F 6E 20 72 65
-	   73 75 6C 74 20
-	   69 73 3A 20 0A
+	   6C 69 63 61 74
+	   69 6F 6E 20 72
+	   65 73 75 6C 74
+	   20 69 73 3A 20
+	   0A
 
- 0000004C  00000100 [		input				byte	256 DUP(00h)
+ 0000004D  00000100 [		input				byte	256		DUP(00h)
 	    00
 	   ]
- 0000014C 00			read				byte	?
- 0000014D 00000000		numofBytestoRead	dword	?
+ 0000014D  00000100 [		input2				byte	256		DUP(00h)
+	    00
+	   ]
+ 0000024D 00			read				byte	?
+ 0000024E 00000000		numofBytestoRead	dword	?
+ 00000252 00000000		num1				dword	0
+ 00000256 00000000		num2				dword	0
+ 0000025A 00000000		answer				dword	0
 
  00000000			.code
 
+				;												---------------------------
+				;												------WRITING SECTION------
+				;												---------------------------
+
  00000000			WriteLine PROC near
 
- 00000000			_WriteLine:
+ 00000000  55				push	ebp							; Save the old base pointer
+ 00000001  8B EC			mov		ebp,	esp					; Set new base pointer
+ 00000003  8B 5D 08			mov		ebx,	[ebp+8]				; Getting parameter that we want (string address)
+ 00000006  B9 00000000			mov		ecx,	0
+ 0000000B  8B FB			mov		edi,	ebx					; storing original msg in edi becase we will be incrementing ebx to get amount of chars later
 
- 00000000  55				push ebp						; Save the old base pointer
- 00000001  8B EC			mov ebp, esp					; Set new base pointer
+ 0000000D			_counting:
 
-					; handle = GetStdHandle(-11)
- 00000003  6A F5			push	-11
- 00000005  E8 00000000 E		call	_GetStdHandle@4
-
- 0000000A  A3 00000004 R		mov		handle, eax
-
-					; WriteConsole(handle, &msg[0], 17, &written, 0)
- 0000000F  6A 00			push	0
- 00000011  68 00000008 R		push	offset written
- 00000016  6A 11			push	17
- 00000018  68 0000000C R		push	offset msg
- 0000001D  FF 35 00000004 R		push	handle
- 00000023  E8 00000000 E		call	_WriteConsoleA@20
- 00000028  5D				pop		ebp
- 00000029  C3				ret
-
- 0000002A			WriteLine ENDP
-
- 0000002A			WriteLine2 PROC near
-
- 0000002A  55				push ebp						; Save the old base pointer
- 0000002B  8B EC			mov ebp, esp					; Set new base pointer
-
-					; handle = GetStdHandle(-11)
- 0000002D  6A F5			push	-11
- 0000002F  E8 00000000 E		call	_GetStdHandle@4
-
- 00000034  A3 00000004 R		mov		handle, eax
-
-					; WriteConsole(handle, &msg[0], 17, &written, 0)
- 00000039  6A 00			push	0
- 0000003B  68 00000008 R		push	offset written
- 00000040  6A 11			push	17
- 00000042  68 0000001D R		push	offset msg2
- 00000047  FF 35 00000004 R		push	handle
- 0000004D  E8 00000000 E		call	_WriteConsoleA@20
- 00000052  5D				pop		ebp
- 00000053  C3				ret
-
- 00000054			WriteLine2 ENDP
-
- 00000054			ResultLine PROC near
-
- 00000054  55				push ebp						; Save the old base pointer
- 00000055  8B EC			mov ebp, esp					; Set new base pointer
-
-					; handle = GetStdHandle(-11)
- 00000057  6A F5			push	-11
- 00000059  E8 00000000 E		call	_GetStdHandle@4
-
- 0000005E  A3 00000004 R		mov		handle, eax
-
-					; WriteConsole(handle, &msg[0], 17, &written, 0)
- 00000063  6A 00			push	0
- 00000065  68 00000008 R		push	offset written
- 0000006A  6A 1E			push	30
- 0000006C  68 0000002E R		push	offset result
- 00000071  FF 35 00000004 R		push	handle
- 00000077  E8 00000000 E		call	_WriteConsoleA@20
- 0000007C  5D				pop		ebp
- 0000007D  C3				ret
-
- 0000007E			ResultLine ENDP
-
- 0000007E			ReadLine PROC near
+ 0000000D  8A 03			mov		al,		[ebx]
+ 0000000F  3C 0A			cmp		al,		 10
+ 00000011  74 04			je		_writeLine
 					
- 0000007E  55				push ebp						; Save the old base pointer
- 0000007F  8B EC			mov ebp, esp					; Set new base pointer
- 00000081  8B 5D 08			mov ebx, [ebp+8]				; Getting parameter that we want (string address)
+ 00000013  41				inc		ecx
+ 00000014  43				inc		ebx
+ 00000015  EB F6			jmp		_counting
 
- 00000084			_Reading:
+ 00000017			_writeLine:
 
- 00000084  6A F6			push -10							
- 00000086  E8 00000000 E		call _GetStdHandle@4
+ 00000017  6A F5			push	-11
+ 00000019  E8 00000000 E		call	_GetStdHandle@4
+ 0000001E  A3 00000004 R		mov		handle, eax
 
- 0000008B  A3 00000000 R		mov		readHandle, eax
+ 00000023  6A 00			push	0
+ 00000025  68 00000008 R		push	offset written
+ 0000002A  51				push	ecx
+ 0000002B  57				push	edi
+ 0000002C  FF 35 00000004 R		push	handle
+ 00000032  E8 00000000 E		call	_WriteConsoleA@20
+ 00000037  5D				pop		ebp
+ 00000038  C3				ret
 
-					; ReadConsole (handle, &msg[0], numofCharsToRead, )
- 00000090  6A 00			push	0
- 00000092  68 0000014C R		push	offset read
- 00000097  6A 07			push	7
- 00000099  68 0000004C R		push	offset input
- 0000009E  FF 35 00000000 R		push	readHandle
- 000000A4  E8 00000000 E		call	_ReadConsoleA@20
- 000000A9  5D				pop		ebp
- 000000AA  C3				ret
+ 00000039			WriteLine ENDP
+												
+				;												---------------------------
+				;												----WRITING SECTION END----
+				;												---------------------------
 
- 000000AB			ReadLine ENDP
 
- 000000AB			ReadLine2 PROC near
+				;												---------------------------
+				;												------READING SECTION------
+				;												---------------------------
+
+ 00000039			ReadLine PROC near
 					
- 000000AB  55				push ebp						; Save the old base pointer
- 000000AC  8B EC			mov ebp, esp					; Set new base pointer
- 000000AE  8B 5D 08			mov ebx, [ebp+8]				; Getting parameter that we want (string address)
+ 00000039  55				push	ebp							; Save the old base pointer
+ 0000003A  8B EC			mov		ebp,	esp					; Set new base pointer
+ 0000003C  8B 5D 08			mov		ebx,	[ebp+8]				; Getting parameter that we want (string address)
 
- 000000B1  6A F6			push	-10							
- 000000B3  E8 00000000 E		call	_GetStdHandle@4
- 000000B8  A3 00000000 R		mov		readHandle, eax
+ 0000003F  6A F6			push	-10							
+ 00000041  E8 00000000 E		call	_GetStdHandle@4
 
-					; ReadConsole (handle, &msg[0], numofCharsToRead, )
- 000000BD  6A 00			push	0
- 000000BF  68 0000014C R		push	offset read
- 000000C4  6A 07			push	7
- 000000C6  68 0000004C R		push	offset input
- 000000CB  FF 35 00000000 R		push	readHandle
- 000000D1  E8 00000000 E		call	_ReadConsoleA@20
- 000000D6  5D				pop		ebp
- 000000D7  C3				ret
+ 00000046  A3 00000000 R		mov		readHandle, eax
 
- 000000D8			ReadLine2 ENDP
+ 0000004B  6A 00			push	0
+ 0000004D  68 0000024D R		push	offset read
+ 00000052  6A 07			push	7
+ 00000054  53				push	ebx
+ 00000055  FF 35 00000000 R		push	readHandle
+ 0000005B  E8 00000000 E		call	_ReadConsoleA@20
+ 00000060  5D				pop		ebp
+ 00000061  C3				ret
 
- 000000D8			atoi PROC near
+ 00000062			ReadLine ENDP
 
+				;												---------------------------
+				;												----READING SECTION END----
+				;												---------------------------
 
+ 00000062			atoi PROC near
 
- 000000D8			atoi ENDP
-
-
- 000000D8			itoa PROC near
-
-
-
- 000000D8			itoa ENDP
-
- 000000D8			main PROC near
-
- 000000D8			_main:
+ 00000062  55				push	ebp							; Save the old base pointer
+ 00000063  8B EC			mov		ebp,	esp					; Set new base pointer
+ 00000065  8B 5D 08			mov		ebx,	[ebp+8]				; Getting parameter that we want (string address)
+ 00000068  83 C4 04			add		esp,	4
+ 0000006B  B9 00000000			mov		ecx,	0				;Setting counter
+ 00000070  8B FB			mov		edi,	ebx				;storing original input in edi becase we will be incrementing ebx to get num of nums later
 					
- 000000D8  68 0000000C R		push offset msg
- 000000DD  E8 FFFFFF1E			call WriteLine
+ 00000072			_countingLoop:
 
- 000000E2  E8 FFFFFF97			call ReadLine
+ 00000072  8A 03			mov		al,		[ebx]			;Getting the single number from ebx and storing it into al 
+ 00000074  3C 0D			cmp		al,		0dh				;Comparing the current number to 0dh, which is a carriage return to check if we have made it to the end
+ 00000076  74 04			je		_atoi					;Go to atoi to do conversion if current num is equal to 0dh
+					
+ 00000078  41				inc		ecx						;incrementing counter
+ 00000079  43				inc		ebx						;incrementing ebx to get to next num
+ 0000007A  EB F6			jmp		_countingLoop			;restarting loop
 
- 000000E7  68 0000001D R		push offset msg2
- 000000EC  E8 FFFFFF39			call WriteLine2
+ 0000007C			_atoi:
 
- 000000F1  E8 FFFFFFB5			call ReadLine2
+							;THOUGHT PROCESS HERE: if we start with 750, that is 37 35 30 in memory. If we subtract 30 from each of these numbers
+							;we get the number we are trying to represent (not sure if that has to be done in code). To convert the ascii value
+							;to integer, we need to multiply each number by 10^x, x being how many digits there are. We have to start at the
+							;furthest right number? Then we put into a new register
 
- 000000F6  E8 FFFFFF59			call ResultLine
+ 0000007C  BE 00000001			mov		esi,	1				;set up for 10^x
+ 00000081  4B				dec		ebx
 
- 000000FB  6A 00			push 0
- 000000FD  E8 00000000 E		call _ExitProcess@4
+ 00000082			_atoiLoop:
+					
+ 00000082  B8 00000000			mov		eax,	0
+ 00000087  83 F9 00			cmp		ecx,	0
+ 0000008A  74 16			je		_atoiLoopdone
+ 0000008C  8A 03			mov		al,		[ebx]			;taking the specific number at beginning of ebx and putting into smaller reg
+ 0000008E  2C 30			sub		al,		30h
+ 00000090  F7 E6			mul		esi
+ 00000092  89 45 00			mov		[ebp],	eax	
+ 00000095  B8 0000000A			mov		eax,	10
+ 0000009A  F7 E6			mul		esi
+ 0000009C  8B F0			mov		esi,	eax
+ 0000009E  49				dec		ecx
+ 0000009F  4B				dec		ebx
+ 000000A0  EB E0			jmp		_atoiLoop
 
- 00000102			main ENDP
+ 000000A2			_atoiLoopdone:		;this loop is for if there is only 1 number
+
+ 000000A2  8B 45 00			mov		eax,	[ebp]
+ 000000A5  8B E5			mov		esp,	ebp
+ 000000A7  5D				pop		ebp
+ 000000A8  C2 0004			ret		4	
+																						
+
+
+
+ 000000AB			atoi ENDP
+
+
+ 000000AB			itoa PROC near
+
+					
+
+ 000000AB			itoa ENDP
+
+ 000000AB			main PROC near
+
+ 000000AB			_main:
+					
+ 000000AB  68 0000000C R		push	offset msg
+ 000000B0  E8 FFFFFF4B			call	WriteLine
+
+ 000000B5  68 0000004D R		push	offset input
+ 000000BA  E8 FFFFFF7A			call	ReadLine
+
+ 000000BF  68 0000001D R		push	offset msg2
+ 000000C4  E8 FFFFFF37			call	WriteLine
+
+ 000000C9  68 0000014D R		push	offset	input2
+ 000000CE  E8 FFFFFF66			call	ReadLine
+
+ 000000D3  68 0000004D R		push	offset input
+ 000000D8  E8 FFFFFF85			call	atoi
+ 000000DD  A3 00000252 R		mov		num1,	eax	
+ 000000E2  68 0000014D R		push	offset input2
+ 000000E7  E8 FFFFFF76			call	atoi
+ 000000EC  A3 00000256 R		mov		num2,	eax
+
+ 000000F1  A1 00000252 R		mov		eax,	num1
+ 000000F6  F7 25 00000256 R		mul		num2
+ 000000FC  A3 0000025A R		mov		answer,	eax
+
+ 00000101  68 0000002E R		push	offset result
+ 00000106  E8 FFFFFEF5			call	WriteLine
+
+ 0000010B  68 0000025A R		push	offset	answer
+ 00000110  E8 FFFFFF96			call	itoa
+
+ 00000115  6A 00			push	0
+ 00000117  E8 00000000 E		call	_ExitProcess@4
+
+ 0000011C			main ENDP
 				END
-Microsoft (R) Macro Assembler Version 14.29.30136.0	    11/30/21 17:20:56
+Microsoft (R) Macro Assembler Version 14.29.30136.0	    12/05/21 18:45:59
 main.asm						     Symbols 2 - 1
 
 
@@ -206,25 +237,26 @@ Segments and Groups:
                 N a m e                 Size     Length   Align   Combine Class
 
 FLAT . . . . . . . . . . . . . .	GROUP
-_DATA  . . . . . . . . . . . . .	32 Bit	 00000151 Para	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 00000102 Para	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	32 Bit	 0000025E Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 0000011C Para	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
 
                 N a m e                 Type     Value    Attr
 
-ReadLine2  . . . . . . . . . . .	P Near	 000000AB _TEXT	Length= 0000002D Public
-ReadLine . . . . . . . . . . . .	P Near	 0000007E _TEXT	Length= 0000002D Public
-  _Reading . . . . . . . . . . .	L Near	 00000084 _TEXT	
-ResultLine . . . . . . . . . . .	P Near	 00000054 _TEXT	Length= 0000002A Public
-WriteLine2 . . . . . . . . . . .	P Near	 0000002A _TEXT	Length= 0000002A Public
-WriteLine  . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000002A Public
-  _WriteLine . . . . . . . . . .	L Near	 00000000 _TEXT	
-atoi . . . . . . . . . . . . . .	P Near	 000000D8 _TEXT	Length= 00000000 Public
-itoa . . . . . . . . . . . . . .	P Near	 000000D8 _TEXT	Length= 00000000 Public
-main . . . . . . . . . . . . . .	P Near	 000000D8 _TEXT	Length= 0000002A Public
-  _main  . . . . . . . . . . . .	L Near	 000000D8 _TEXT	
+ReadLine . . . . . . . . . . . .	P Near	 00000039 _TEXT	Length= 00000029 Public
+WriteLine  . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000039 Public
+  _counting  . . . . . . . . . .	L Near	 0000000D _TEXT	
+  _writeLine . . . . . . . . . .	L Near	 00000017 _TEXT	
+atoi . . . . . . . . . . . . . .	P Near	 00000062 _TEXT	Length= 00000049 Public
+  _countingLoop  . . . . . . . .	L Near	 00000072 _TEXT	
+  _atoi  . . . . . . . . . . . .	L Near	 0000007C _TEXT	
+  _atoiLoop  . . . . . . . . . .	L Near	 00000082 _TEXT	
+  _atoiLoopdone  . . . . . . . .	L Near	 000000A2 _TEXT	
+itoa . . . . . . . . . . . . . .	P Near	 000000AB _TEXT	Length= 00000000 Public
+main . . . . . . . . . . . . . .	P Near	 000000AB _TEXT	Length= 00000071 Public
+  _main  . . . . . . . . . . . .	L Near	 000000AB _TEXT	
 
 
 Symbols:
@@ -244,13 +276,17 @@ _ExitProcess@4 . . . . . . . . .	L Near	 00000000 FLAT	External
 _GetStdHandle@4  . . . . . . . .	L Near	 00000000 FLAT	External
 _ReadConsoleA@20 . . . . . . . .	L Near	 00000000 FLAT	External
 _WriteConsoleA@20  . . . . . . .	L Near	 00000000 FLAT	External
+answer . . . . . . . . . . . . .	DWord	 0000025A _DATA	
 handle . . . . . . . . . . . . .	DWord	 00000004 _DATA	
-input  . . . . . . . . . . . . .	Byte	 0000004C _DATA	
+input2 . . . . . . . . . . . . .	Byte	 0000014D _DATA	
+input  . . . . . . . . . . . . .	Byte	 0000004D _DATA	
 msg2 . . . . . . . . . . . . . .	Byte	 0000001D _DATA	
 msg  . . . . . . . . . . . . . .	Byte	 0000000C _DATA	
-numofBytestoRead . . . . . . . .	DWord	 0000014D _DATA	
+num1 . . . . . . . . . . . . . .	DWord	 00000252 _DATA	
+num2 . . . . . . . . . . . . . .	DWord	 00000256 _DATA	
+numofBytestoRead . . . . . . . .	DWord	 0000024E _DATA	
 readHandle . . . . . . . . . . .	DWord	 00000000 _DATA	
-read . . . . . . . . . . . . . .	Byte	 0000014C _DATA	
+read . . . . . . . . . . . . . .	Byte	 0000024D _DATA	
 result . . . . . . . . . . . . .	Byte	 0000002E _DATA	
 written  . . . . . . . . . . . .	DWord	 00000008 _DATA	
 
